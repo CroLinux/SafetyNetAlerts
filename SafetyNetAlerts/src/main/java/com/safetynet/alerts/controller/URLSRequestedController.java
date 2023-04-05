@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.safetynet.alerts.model.URL1ResponseFields;
 import com.safetynet.alerts.model.URL6ResponseFields;
 import com.safetynet.alerts.service.PersonService;
 
@@ -16,6 +17,18 @@ public class URLSRequestedController {
 
 	@Autowired
 	private PersonService personService;
+	
+	/**
+	 * URL 1 - http://localhost:8080/firestation?stationNumber=<station_number>
+	 * We should get here: Name - Address - Phone - number of Adults - number of Kids;
+	 * We have to provide here: station_number
+	 */
+	@GetMapping("/firestation")
+	public List<URL1ResponseFields> getFirestationPeople(@RequestParam int stationNumber) throws IOException{
+		
+		List<URL1ResponseFields> resultURL1 = personService.findPeopleAndCountByStationNumber(stationNumber);
+		return resultURL1;		
+	}
 
 	/**
 	 * URL 6 -
@@ -29,7 +42,6 @@ public class URLSRequestedController {
 
 		List<URL6ResponseFields> resultURL6 = personService.findPersonAndMedicalRecordsByFirstNameAndLastName(firstName,
 				lastName);
-
 		return resultURL6;
 	}
 
