@@ -22,21 +22,9 @@ public class PersonController {
 
 	@Autowired
 	private PersonRepository personRepository;
-	/*
-	 * @GetMapping("/personInfo") public List<Person> getPersonInfo(@RequestParam
-	 * String firstName, @RequestParam String lastName) { List<Person> persons =
-	 * null; try { persons = readJSONFile.getPersons(); } catch (IOException e) { //
-	 * TODO Auto-generated catch block e.printStackTrace(); } List<Person> result =
-	 * new ArrayList<>();
-	 * 
-	 * for (Person person : persons) { if
-	 * (person.getFirstName().equalsIgnoreCase(firstName) &&
-	 * person.getLastName().equalsIgnoreCase(lastName)) { result.add(person); } }
-	 * 
-	 * return result; }
-	 */
 
-	@GetMapping("/personInfo")
+	// Get the personal info only
+	@GetMapping("/personInfoOnly")
 	public List<Person> getPersonInfo(@RequestParam String firstName, @RequestParam String lastName)
 			throws IOException {
 		// List<Person> persons = readJSONFile.getPersons();
@@ -50,12 +38,14 @@ public class PersonController {
 		return result;
 	}
 
+	// Get all the personal info from all people
 	@GetMapping("/person")
 	public List<Person> personsList() throws IOException {
 		List<Person> personList = readJSONFile.getPersons();
 		return personList;
 	}
 
+	// Get all the medical records from all people
 	@GetMapping("/medical")
 	public List<MedicalRecord> medicalList() throws IOException {
 		List<MedicalRecord> medicalList = readJSONFile.getMedicalRecords();

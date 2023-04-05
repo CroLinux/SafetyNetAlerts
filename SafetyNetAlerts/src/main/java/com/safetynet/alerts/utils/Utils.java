@@ -5,7 +5,7 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 public class Utils {
-	
+
 	public static String calculateAge(String dateStringProvided) {
 		// Format the String date provided
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");

@@ -10,16 +10,15 @@ import com.safetynet.alerts.repository.PersonRepository;
 
 @Service
 public class PersonService {
-	
+
 	@Autowired
 	private PersonRepository personRepository;
 
-	public List<URL6ResponseFields> findPersonAndMedicalRecordsByFirstNameAndLastName(String firstName, String lastName) {
-		// TODO Auto-generated method stub
-		
-		List<URL6ResponseFields> resultPSURL6 = personRepository.getPersonAndMedicalRecordsByFirstNameAndLastName(firstName, lastName) ;
-		
-		
+	public List<URL6ResponseFields> findPersonAndMedicalRecordsByFirstNameAndLastName(String firstName,
+			String lastName) {
+		List<URL6ResponseFields> resultPSURL6 = personRepository
+				.getPersonAndMedicalRecordsByFirstNameAndLastName(firstName, lastName);
+
 		return resultPSURL6;
 	}
 
