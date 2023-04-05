@@ -8,7 +8,7 @@ public class Utils {
 
 	public static String calculateAge(String dateStringProvided) {
 		// Format the String date provided
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		LocalDate birthDate = LocalDate.parse(dateStringProvided, formatter);
 
 		// Calculate the years

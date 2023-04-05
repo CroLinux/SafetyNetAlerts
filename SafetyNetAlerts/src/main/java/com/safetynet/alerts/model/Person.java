@@ -14,7 +14,7 @@ public class Person {
 	public String phone;
 	public String email;
 
-	// Generate the Consturctor
+	// Generate the Constructor
 	public Person(String firstName, String lastName, String address, String city, String zip, String phone,
 			String email) {
 		super();
@@ -30,10 +30,10 @@ public class Person {
 	public static class PersonBuilder {
 		private String firstName;
 		private String lastName;
-		private String phone;
-		private String zip;
 		private String address;
 		private String city;
+		private String zip;
+		private String phone;
 		private String email;
 
 		public PersonBuilder() {
@@ -49,16 +49,6 @@ public class Person {
 			return this;
 		}
 
-		public PersonBuilder phone(String phone) {
-			this.phone = phone;
-			return this;
-		}
-
-		public PersonBuilder zip(String zip) {
-			this.zip = zip;
-			return this;
-		}
-
 		public PersonBuilder address(String address) {
 			this.address = address;
 			return this;
@@ -69,13 +59,23 @@ public class Person {
 			return this;
 		}
 
+		public PersonBuilder zip(String zip) {
+			this.zip = zip;
+			return this;
+		}
+
+		public PersonBuilder phone(String phone) {
+			this.phone = phone;
+			return this;
+		}
+
 		public PersonBuilder email(String email) {
 			this.email = email;
 			return this;
 		}
 
 		public Person build() {
-			return new Person(firstName, lastName, phone, zip, address, city, email);
+			return new Person(firstName, lastName, address, city, zip, phone, email);
 		}
 	}
 }

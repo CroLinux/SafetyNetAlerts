@@ -60,4 +60,20 @@ public class PersonRepository {
 		return resultPRURL6;
 	}
 
+	public List<String> getEmailByCity(String city) {
+		List<String> resultPRURL7 = new ArrayList<>();
+		for (Person person : personList) {
+			System.out.println(city);
+			System.out.println(personList);
+			System.out.println(person.getCity());
+			System.out.println(person.getZip());
+			if (person.getCity().equals(city)) {
+				System.out.println(person.getEmail());
+				System.out.println("ANTE");
+				resultPRURL7.add(person.getEmail());
+			}
+		}
+		return resultPRURL7;
+	}
+
 }

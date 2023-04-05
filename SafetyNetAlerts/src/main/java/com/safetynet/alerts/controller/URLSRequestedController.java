@@ -17,14 +17,14 @@ public class URLSRequestedController {
 	@Autowired
 	private PersonService personService;
 
-	/*
+	/**
 	 * URL 6 -
 	 * http://localhost:8080/personInfo?firstName=<firstName>&lastName=<lastName>.
 	 * We should get here: Name - Address - Age - Email - MedicalRecords. We have to
 	 * provide here: FirstName and LastName
 	 */
 	@GetMapping("/personInfo")
-	public List<URL6ResponseFields> getPersonInfo3(@RequestParam String firstName, @RequestParam String lastName)
+	public List<URL6ResponseFields> getPersonInfo(@RequestParam String firstName, @RequestParam String lastName)
 			throws IOException {
 
 		List<URL6ResponseFields> resultURL6 = personService.findPersonAndMedicalRecordsByFirstNameAndLastName(firstName,
@@ -33,4 +33,17 @@ public class URLSRequestedController {
 		return resultURL6;
 	}
 
+	/**
+	 * URL 7 - http://localhost:8080/communityEmail?city=<city>
+	 * We should get here all the emails from all the residents of the city.
+	 * We have to provide here: City
+	 */
+	@GetMapping("/communityEmail")
+	public List<String> getCommunityEmail(@RequestParam String city) throws IOException{
+		
+		List<String> resultURL7 = personService.findEmailByCity(city);
+		return resultURL7;
+		
+	}
+	
 }

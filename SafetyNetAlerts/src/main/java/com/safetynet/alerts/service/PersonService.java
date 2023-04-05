@@ -22,4 +22,9 @@ public class PersonService {
 		return resultPSURL6;
 	}
 
+	public List<String> findEmailByCity(String city) {
+		List<String> resultPSURL7 = personRepository.getEmailByCity(city);
+		return resultPSURL7;
+	}
+
 }
