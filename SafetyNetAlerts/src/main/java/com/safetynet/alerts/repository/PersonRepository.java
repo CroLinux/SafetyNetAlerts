@@ -82,6 +82,20 @@ public class PersonRepository {
 		return resultPRURL1;
 	}
 
+	public List<String> getPhoneByFirestation(int firestation) {
+		firestationsList = firestationRepository.getFirestationsByID(firestation);
+
+		List<String> resultPRURL3 = new ArrayList<>();
+		for (Person person : personList) {
+			for (Firestation firestation3 : firestationsList) {
+				if (firestation3.getAddress().equals(person.getAddress())) {
+					resultPRURL3.add(person.getPhone());
+				}
+			}
+		}
+		return resultPRURL3;
+	}
+
 	public List<URL6ResponseFields> getPersonAndMedicalRecordsByFirstNameAndLastName(String firstName,
 			String lastName) {
 

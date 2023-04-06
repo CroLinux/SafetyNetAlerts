@@ -17,17 +17,28 @@ public class URLSRequestedController {
 
 	@Autowired
 	private PersonService personService;
-	
+
 	/**
-	 * URL 1 - http://localhost:8080/firestation?stationNumber=<station_number>
-	 * We should get here: Name - Address - Phone - number of Adults - number of Kids;
+	 * URL 1 - http://localhost:8080/firestation?stationNumber=<station_number> We
+	 * should get here: Name - Address - Phone - number of Adults - number of Kids;
 	 * We have to provide here: station_number
 	 */
 	@GetMapping("/firestation")
-	public List<URL1ResponseFields> getFirestationPeople(@RequestParam int stationNumber) throws IOException{
-		
+	public List<URL1ResponseFields> getFirestationPeople(@RequestParam int stationNumber) throws IOException {
 		List<URL1ResponseFields> resultURL1 = personService.findPeopleAndCountByStationNumber(stationNumber);
-		return resultURL1;		
+		return resultURL1;
+	}
+
+	/**
+	 * URL 3 - http://localhost:8080/phoneAlert?firestation=<firestation_number> We
+	 * should get here all the phone numbers of the residents from a specified
+	 * firestation number We have to provide here: station_number
+	 */
+	@GetMapping("/phoneAlert")
+	public List<String> getPhoneNumber(@RequestParam int firestation) throws IOException {
+		List<String> resultURL3 = personService.findPhoneByFirestation(firestation);
+		return resultURL3;
+
 	}
 
 	/**
@@ -46,16 +57,16 @@ public class URLSRequestedController {
 	}
 
 	/**
-	 * URL 7 - http://localhost:8080/communityEmail?city=<city>
-	 * We should get here all the emails from all the residents of the city.
-	 * We have to provide here: City
+	 * URL 7 - http://localhost:8080/communityEmail?city=<city> We should get here
+	 * all the emails from all the residents of the city. We have to provide here:
+	 * City
 	 */
 	@GetMapping("/communityEmail")
-	public List<String> getCommunityEmail(@RequestParam String city) throws IOException{
-		
+	public List<String> getCommunityEmail(@RequestParam String city) throws IOException {
+
 		List<String> resultURL7 = personService.findEmailByCity(city);
 		return resultURL7;
-		
+
 	}
-	
+
 }

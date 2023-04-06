@@ -20,6 +20,11 @@ public class PersonService {
 		return resultPSURL1;
 	}
 
+	public List<String> findPhoneByFirestation(int firestation) {
+		List<String> resultPSURL3 = personRepository.getPhoneByFirestation(firestation);
+		return resultPSURL3;
+	}
+
 	public List<URL6ResponseFields> findPersonAndMedicalRecordsByFirstNameAndLastName(String firstName,
 			String lastName) {
 		List<URL6ResponseFields> resultPSURL6 = personRepository
