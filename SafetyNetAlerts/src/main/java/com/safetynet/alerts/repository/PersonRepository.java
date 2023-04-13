@@ -11,7 +11,10 @@ import org.springframework.stereotype.Repository;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
+import com.safetynet.alerts.model.PersonFullData;
 import com.safetynet.alerts.model.URL1ResponseFields;
+import com.safetynet.alerts.model.URL2ResponseFields;
+import com.safetynet.alerts.model.URL4ResponseFields;
 import com.safetynet.alerts.model.URL6ResponseFields;
 import com.safetynet.alerts.utils.Utils;
 
@@ -32,13 +35,110 @@ public class PersonRepository {
 
 	// private static List<Firestation> firestationsList = new ArrayList<>();
 
+	// We extract the person info from the persons part.
 	public PersonRepository() throws IOException {
 		ReadJSONFile readJSONFile = new ReadJSONFile();
 		personList = readJSONFile.getPersons();
 	}
 
+	// We return the table with the small person info.
 	public List<Person> getPersons() {
 		return personList;
+	}
+
+	// We generate a table with all the personal info from the 3 parts of the
+	// provided file.
+	public List<PersonFullData> getPersonsFullData() {
+		List<PersonFullData> getPersonsListFullData = new ArrayList<>();
+
+		medicalRecords = medicalRecordRepository.getMedicalRecords();
+		firestationsList = firestationRepository.getFirestations();
+
+		for (Person person : personList) {
+			for (Firestation firestation : firestationsList) {
+				for (MedicalRecord medicalRecord : medicalRecords) {
+					if (firestation.getAddress().equals(person.getAddress())
+							&& person.getFirstName().equals(medicalRecord.getFirstName())
+							&& person.getLastName().equals(medicalRecord.getLastName())) {
+
+						// set values
+						PersonFullData resultFull = new PersonFullData();
+						resultFull.setFirstName(person.getFirstName());
+						resultFull.setLastName(person.getLastName());
+						resultFull.setAddress(person.getAddress());
+						resultFull.setCity(person.getCity());
+						resultFull.setZip(person.getZip());
+						resultFull.setPhone(person.getPhone());
+						resultFull.setEmail(person.getEmail());
+						resultFull.setBirthdate(medicalRecord.getBirthdate());
+						resultFull.setAge(Utils.calculateAge(medicalRecord.getBirthdate()));
+						resultFull.setMedications(medicalRecord.getMedications());
+						resultFull.setAllergies(medicalRecord.getAllergies());
+						resultFull.setStation(firestation.getStation());
+
+						getPersonsListFullData.add(resultFull);
+					}
+				}
+			}
+		}
+		// System.out.println("FULL : ");
+		// System.out.println(getPersonsListFullData);
+		return getPersonsListFullData;
+	}
+
+	// From the full file generated, we generate a file with adults only, over 18y.
+	public List<PersonFullData> getFullAdults() {
+		List<PersonFullData> getFullAdultsList = new ArrayList<>();
+		List<PersonFullData> personsFullList1 = getPersonsFullData();
+
+		for (PersonFullData person : personsFullList1) {
+			int readAgeFullData = Integer.parseInt(person.getAge());
+			if (readAgeFullData > 18) {
+				// System.out.println("Adults " + readAgeFullData + person.getFirstName() +
+				// person.getLastName());
+				getFullAdultsList.add(person);
+				// System.out.println(getFullAdultsList);
+			} else {
+				// System.out.println("Kids " + readAgeFullData + person.getFirstName() +
+				// person.getLastName());
+			}
+
+		}
+		return getFullAdultsList;
+	}
+
+	// From the full file generated, we generate a file with childs only, 18y and
+	// under.
+	public List<PersonFullData> getFullChilds() {
+		List<PersonFullData> getFullChildsList = new ArrayList<>();
+		List<PersonFullData> personsFullList2 = getPersonsFullData();
+
+		for (PersonFullData person : personsFullList2) {
+			int readAgeFullData = Integer.parseInt(person.getAge());
+			if (readAgeFullData <= 18) {
+				// System.out.println("Kids " + readAgeFullData + person.getFirstName() +
+				// person.getLastName());
+				getFullChildsList.add(person);
+				// System.out.println(getFullChildsList);
+			} else {
+				// System.out.println("Adults " + readAgeFullData + person.getFirstName() +
+				// person.getLastName());
+			}
+
+		}
+		return getFullChildsList;
+	}
+
+	// Usefull for the URL 2 request
+	public List<Person> getPersonsByAddress(String address) {
+		List<Person> getPersonsListByAddress = new ArrayList<>();
+
+		for (Person person : personList) {
+			if (person.getAddress().equals(address)) {
+				getPersonsListByAddress.add(person);
+			}
+		}
+		return getPersonsListByAddress;
 	}
 
 	public List<URL1ResponseFields> getPeopleAndCountByStationNumber(int stationNumber) {
@@ -76,10 +176,34 @@ public class PersonRepository {
 					}
 				}
 			}
-
 		}
-
 		return resultPRURL1;
+	}
+
+	public List<URL2ResponseFields> getChildListByAddress(String address) {
+		// medicalRecords = medicalRecordRepository.getMedicalRecords();
+		List<URL2ResponseFields> resultPRURL2 = new LinkedList<URL2ResponseFields>();
+		List<Person> personListByAddress = getPersonsByAddress(address);
+		List<PersonFullData> personFullList = getPersonsFullData();
+
+		for (PersonFullData personfull : personFullList) {
+			if ((personfull.getAddress().equals(address)) && (Integer.parseInt(personfull.getAge()) <= 18)) {
+				URL2ResponseFields result2Kids = new URL2ResponseFields();
+				result2Kids.setFirstName(personfull.getFirstName());
+				result2Kids.setLastName(personfull.getLastName());
+				result2Kids.setAge(personfull.getAge());
+
+				List<String> withResidents = new ArrayList<>();
+				for (Person person : personListByAddress) {
+					if (!person.getFirstName().equals(result2Kids.getFirstName())) {
+						withResidents.add(person.getFirstName() + " " + person.getLastName());
+						result2Kids.setWithResidents(withResidents);
+					}
+				}
+				resultPRURL2.add(result2Kids);
+			}
+		}
+		return resultPRURL2;
 	}
 
 	public List<String> getPhoneByFirestation(int firestation) {
@@ -94,6 +218,32 @@ public class PersonRepository {
 			}
 		}
 		return resultPRURL3;
+	}
+	
+	public List<URL4ResponseFields> getFireListByAddress(String address) {
+		List<URL4ResponseFields> resultPRURL4 = new LinkedList<URL4ResponseFields>();
+		List<PersonFullData> personFullList = getPersonsFullData();
+		
+		for (PersonFullData personfull : personFullList) {
+			if ((personfull.getAddress().equals(address))) {
+
+				URL4ResponseFields result4 = new URL4ResponseFields();
+				result4.setStation(personfull.getStation());
+				result4.setFirstName(personfull.getFirstName());
+				result4.setLastName(personfull.getLastName());
+				result4.setPhone(personfull.getPhone());
+				result4.setAge(personfull.getAge());
+				result4.setMedications(personfull.getMedications());
+				result4.setAllergies(personfull.getAllergies());				
+
+				resultPRURL4.add(result4);
+				
+			}
+			
+		}
+
+		
+		return resultPRURL4;
 	}
 
 	public List<URL6ResponseFields> getPersonAndMedicalRecordsByFirstNameAndLastName(String firstName,
@@ -135,5 +285,7 @@ public class PersonRepository {
 		}
 		return resultPRURL7;
 	}
+
+
 
 }

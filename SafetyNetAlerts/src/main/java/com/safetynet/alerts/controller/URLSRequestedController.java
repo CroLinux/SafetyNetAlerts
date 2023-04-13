@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynet.alerts.model.URL1ResponseFields;
+import com.safetynet.alerts.model.URL2ResponseFields;
+import com.safetynet.alerts.model.URL4ResponseFields;
 import com.safetynet.alerts.model.URL6ResponseFields;
 import com.safetynet.alerts.service.PersonService;
 
@@ -30,6 +32,17 @@ public class URLSRequestedController {
 	}
 
 	/**
+	 * URL 2 - http://localhost:8080/childAlert?address=<address> We should get a
+	 * list of kids (<=18 y.) with Name - Age + List of the other residents from
+	 * specified address. We should provide here: addresss
+	 */
+	@GetMapping("/childAlert")
+	public List<URL2ResponseFields> getChildList(@RequestParam String address) throws IOException {
+		List<URL2ResponseFields> resultURL2 = personService.findChildListByAddress(address);
+		return resultURL2;
+	}
+
+	/**
 	 * URL 3 - http://localhost:8080/phoneAlert?firestation=<firestation_number> We
 	 * should get here all the phone numbers of the residents from a specified
 	 * firestation number We have to provide here: station_number
@@ -38,7 +51,17 @@ public class URLSRequestedController {
 	public List<String> getPhoneNumber(@RequestParam int firestation) throws IOException {
 		List<String> resultURL3 = personService.findPhoneByFirestation(firestation);
 		return resultURL3;
+	}
 
+	/**
+	 * URL 4 - http://localhost:8080/fire?address=<address>
+	 * We should get here station Id, Name, Tel, Age and Medical records from specified address.
+	 * We have to provide the address 
+	 */
+	@GetMapping("/fire")
+	public List<URL4ResponseFields> getFireList(@RequestParam String address) throws IOException {
+		List<URL4ResponseFields> resultURL4 = personService.findFireListByAddress(address);
+		return resultURL4;
 	}
 
 	/**
@@ -48,8 +71,8 @@ public class URLSRequestedController {
 	 * provide here: FirstName and LastName
 	 */
 	@GetMapping("/personInfo")
-	public List<URL6ResponseFields> getPersonInfo(@RequestParam String firstName, @RequestParam String lastName)
-			throws IOException {
+	public List<URL6ResponseFields> getPersonInfo(@RequestParam("firstName") String firstName,
+			@RequestParam String lastName) throws IOException {
 
 		List<URL6ResponseFields> resultURL6 = personService.findPersonAndMedicalRecordsByFirstNameAndLastName(firstName,
 				lastName);
