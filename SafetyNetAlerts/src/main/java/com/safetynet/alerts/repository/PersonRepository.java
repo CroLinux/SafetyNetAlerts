@@ -236,13 +236,9 @@ public class PersonRepository {
 				result4.setMedications(personfull.getMedications());
 				result4.setAllergies(personfull.getAllergies());				
 
-				resultPRURL4.add(result4);
-				
-			}
-			
-		}
-
-		
+				resultPRURL4.add(result4);				
+			}			
+		}		
 		return resultPRURL4;
 	}
 
