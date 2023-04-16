@@ -3,6 +3,7 @@ package com.safetynet.alerts.repository;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashSet;
 
 import org.springframework.stereotype.Repository;
 
@@ -32,6 +33,18 @@ public class FirestationRepository {
 
 		}
 		return firestationListByID;
+	}
+	
+	public HashSet<String> getFirestationsAddressByID(int stationNumber) {
+		HashSet<String> firestationAddressListByID = new HashSet<String>();
+		//List<String> firestationAddressListByID = new ArrayList<>();
+		for (Firestation firestation : firestationList) {
+			if (firestation.getStation() == stationNumber) {
+				firestationAddressListByID.add(firestation.getAddress());
+			}
+
+		}
+		return firestationAddressListByID;
 	}
 
 }

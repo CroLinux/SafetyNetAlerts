@@ -1,6 +1,7 @@
 package com.safetynet.alerts.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.safetynet.alerts.model.URL1ResponseFields;
 import com.safetynet.alerts.model.URL2ResponseFields;
 import com.safetynet.alerts.model.URL4ResponseFields;
+import com.safetynet.alerts.model.URL5ResponseFields;
 import com.safetynet.alerts.model.URL6ResponseFields;
 import com.safetynet.alerts.repository.PersonRepository;
 
@@ -36,6 +38,11 @@ public class PersonService {
 		List<URL4ResponseFields> resultPSURL4 = personRepository.getFireListByAddress(address);
 		return resultPSURL4;
 	}
+	
+	public List<URL5ResponseFields> findFloodStationsByFirestation(List<Integer> firestationList) {
+		List<URL5ResponseFields> resultPSURL5 = personRepository.getFloodStationsByFirestation(firestationList);
+		return resultPSURL5;
+	}
 
 	public List<URL6ResponseFields> findPersonAndMedicalRecordsByFirstNameAndLastName(String firstName,
 			String lastName) {
@@ -48,6 +55,8 @@ public class PersonService {
 		List<String> resultPSURL7 = personRepository.getEmailByCity(city);
 		return resultPSURL7;
 	}
+
+
 
 
 
