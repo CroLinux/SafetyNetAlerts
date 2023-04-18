@@ -1,19 +1,32 @@
 package com.safetynet.alerts.model;
 
+import com.jsoniter.annotation.JsonProperty;
+
 import lombok.Data;
 
 @Data
 public class Person {
 
 	// Definition of the fields
+	@JsonProperty("firstName")
 	public String firstName;
+	@JsonProperty("lastName")
 	public String lastName;
+	@JsonProperty("address")
 	public String address;
+	@JsonProperty("city")
 	public String city;
+	@JsonProperty("zip")
 	public String zip;
+	@JsonProperty("phone")
 	public String phone;
+	@JsonProperty("email")
 	public String email;
 
+	// Default Constructor
+	public Person () {
+		
+	}
 	// Generate the Constructor
 	public Person(String firstName, String lastName, String address, String city, String zip, String phone,
 			String email) {
@@ -78,4 +91,6 @@ public class Person {
 			return new Person(firstName, lastName, address, city, zip, phone, email);
 		}
 	}
+	
+	
 }

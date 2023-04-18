@@ -17,8 +17,8 @@ import com.safetynet.alerts.model.Person;
 
 @Repository
 public class ReadJSONFile {
-
-	private static Any buffer;
+	
+		private static Any buffer;
 
 	public ReadJSONFile() throws IOException {
 		String filePath = "src/main/resources/data.json";
@@ -69,5 +69,7 @@ public class ReadJSONFile {
 		System.out.println(firestationsList);
 		return firestationsList;		
 	}
+	
+
 
 }

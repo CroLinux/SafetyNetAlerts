@@ -11,6 +11,10 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
@@ -32,6 +36,12 @@ public class PersonRepository {
 	@Autowired
 	private MedicalRecordRepository medicalRecordRepository;
 
+	@Autowired
+	private CRUDOnJSONFile crudOnJSONFile;
+
+	// @Autowired
+	// private PersonRepository personRepository;
+
 	private static List<Person> personList = new ArrayList<>();
 
 	private static List<Firestation> firestationsList = new ArrayList<>();
@@ -49,6 +59,27 @@ public class PersonRepository {
 	// We return the table with the small person info.
 	public List<Person> getPersons() {
 		return personList;
+	}
+
+	/**
+	 * GET http://localhost:8080/person (this one is not requested)
+	 * 
+	 * @param firstName
+	 * @param lastName
+	 * @return information for a specific person requested
+	 * @throws IOException
+	 */
+	public List<Person> getPersonInDataSource(String firstName, String lastName) throws IOException {
+		ReadJSONFile readJSONFile = new ReadJSONFile();
+		List<Person> persons = readJSONFile.getPersons();
+		List<Person> result = new ArrayList<>();
+		for (Person getperson : persons) {
+			if (getperson.getFirstName().equalsIgnoreCase(firstName)
+					&& getperson.getLastName().equalsIgnoreCase(lastName)) {
+				result.add(getperson);
+			}
+		}
+		return result;
 	}
 
 	// We generate a table with all the personal info from the 3 parts of the
@@ -88,10 +119,10 @@ public class PersonRepository {
 			}
 		}
 		/**
-		 *  We do a distinct in order to avoid full duplicate values
-		 *  Some residents depend on many station Ids
+		 * We do a distinct in order to avoid full duplicate values Some residents
+		 * depend on many station Ids
 		 */
-		
+
 		List<PersonFullData> distinctPersonsListFullData = getPersonsListFullData.stream().distinct()
 				.collect(Collectors.toList());
 		return distinctPersonsListFullData;
@@ -297,15 +328,17 @@ public class PersonRepository {
 	public List<URL6ResponseFields> getPersonAndMedicalRecordsByFirstNameAndLastName(String firstName,
 			String lastName) {
 
-		medicalRecords = medicalRecordRepository.getMedicalRecords();
+		// medicalRecords = medicalRecordRepository.getMedicalRecords();
 		List<URL6ResponseFields> resultPRURL6 = new LinkedList<URL6ResponseFields>();
 		List<PersonFullData> personFullList6 = getPersonsFullData();
-		
-		// As requested, We add the firstName as optional, and use the PersonFullList extract and we should distinct the result as some person depend of many station Ids
+
+		// As requested, We add the firstName as optional, and use the PersonFullList
+		// extract and we should distinct the result as some person depend of many
+		// station Ids
 		for (PersonFullData personFull6 : personFullList6) {
 			if ((firstName == null || firstName.isEmpty() || personFull6.getFirstName().equalsIgnoreCase(firstName))
 					&& personFull6.getLastName().equalsIgnoreCase(lastName)) {
-				
+
 				URL6ResponseFields result6 = new URL6ResponseFields();
 				result6.setFirstName(personFull6.getFirstName());
 				result6.setLastName(personFull6.getLastName());
@@ -315,12 +348,11 @@ public class PersonRepository {
 				result6.setMedication(personFull6.getMedications());
 				result6.setAllergies(personFull6.getAllergies());
 
-				resultPRURL6.add(result6);			
-			}			
+				resultPRURL6.add(result6);
+			}
 		}
 
-		List<URL6ResponseFields> distinctresultPRURL6 = resultPRURL6.stream().distinct()
-				.collect(Collectors.toList());
+		List<URL6ResponseFields> distinctresultPRURL6 = resultPRURL6.stream().distinct().collect(Collectors.toList());
 		return distinctresultPRURL6;
 	}
 
@@ -332,6 +364,74 @@ public class PersonRepository {
 			}
 		}
 		return resultPRURL7;
+	}
+
+	/**
+	 * 
+	 * --- ENDPOINTS FOR PERSON ---
+	 * 
+	 */
+
+	public List<Person> addPersonInDataSource(Person person) throws IOException {
+		// Verify if the same person is not into the file
+		if (!crudOnJSONFile.isPersonAlreadyExists(person)) {
+			return null;
+		}
+		// Read the file content into a string
+		JsonNode rootNode = crudOnJSONFile.readJsonFile("src/main/resources/data.json");
+		// Add the new person into it
+		ObjectMapper objectMapper = new ObjectMapper();
+		ObjectNode personNode = objectMapper.convertValue(person, ObjectNode.class);
+		((ArrayNode) rootNode.get("persons")).add(personNode);
+		// Write the string into the file
+		crudOnJSONFile.writeJsonFile("src/main/resources/data.json", rootNode);
+		return null;
+	}
+
+	public List<Person> updatePersonInDataSource(Person person) throws IOException {
+		// Verify if the person exist in the file
+		if (crudOnJSONFile.isPersonAlreadyExists(person)) {
+			// Read the file content into a string
+			JsonNode rootNode = crudOnJSONFile.readJsonFile("src/main/resources/data.json");
+			// Search for the given person
+			JsonNode personNode = crudOnJSONFile.findPersonNode(rootNode, person);
+			if (personNode != null) {
+				// Update the person info
+				((ObjectNode) personNode).put("firstName", person.getFirstName());
+				((ObjectNode) personNode).put("lastName", person.getLastName());
+				((ObjectNode) personNode).put("address", person.getAddress());
+				((ObjectNode) personNode).put("city", person.getCity());
+				((ObjectNode) personNode).put("zip", person.getZip());
+				((ObjectNode) personNode).put("phone", person.getPhone());
+				((ObjectNode) personNode).put("email", person.getEmail());
+				// Write the string into the file
+				crudOnJSONFile.writeJsonFile("src/main/resources/data.json", rootNode);
+				return null;
+			}
+		}
+		return null;
+	}
+
+	public List<Person> deletePersonInDataSource(Person person) throws IOException {
+		// Verify if the person exist in the file
+		if (crudOnJSONFile.isPersonAlreadyExists(person)) {
+			// Read the file content into a string and get the persons array/table
+			JsonNode rootNode = crudOnJSONFile.readJsonFile("src/main/resources/data.json");
+			ArrayNode personsArray = (ArrayNode) rootNode.get("persons");
+			// Search for the given person and delete it
+			ObjectMapper objectMapper = new ObjectMapper();
+			for (int i = 0; i < personsArray.size(); i++) {
+				JsonNode node = personsArray.get(i);
+				Person p = objectMapper.treeToValue(node, Person.class);
+				if (p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())) {
+					personsArray.remove(i);
+					// Write the string into the file
+					crudOnJSONFile.writeJsonFile("src/main/resources/data.json", rootNode);
+					return null;
+				}
+			}
+		}
+		return null;
 	}
 
 }

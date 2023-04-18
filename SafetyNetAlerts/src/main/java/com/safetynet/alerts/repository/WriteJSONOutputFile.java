@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * This class is used to write the requested output file in json format.
+ * This class is used to write the requested output from the provided URLs in a Json file (format).
  * We get here different kind of List types.
  *
  * @author CroLinux
@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 
 @Repository
-public class WriteJSONFile {
+public class WriteJSONOutputFile {
 
 	public void writeIntoTheFile(List<?> dataToWriteIntoTheFile) {
 
