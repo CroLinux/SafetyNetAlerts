@@ -7,6 +7,10 @@ public class Firestation {
 
 	String address;
 	int station;
+	
+	public Firestation() {
+		
+	}
 
 	// Generate the Constructor
 	public Firestation(String address, int station) {

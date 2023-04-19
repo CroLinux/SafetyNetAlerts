@@ -7,10 +7,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.Person;
 
 /**
@@ -39,7 +39,7 @@ public class CRUDOnJSONFile {
 	}
 
 	// Search for a JSON node which corresponds to a given person.
-	public JsonNode findPersonNode(JsonNode rootNode, Person person) throws JsonProcessingException, IllegalArgumentException {
+	public JsonNode findPersonNode(JsonNode rootNode, Person person) throws IOException {
 	    ObjectMapper objectMapper = new ObjectMapper();
 	    ArrayNode personsArray = (ArrayNode) rootNode.get("persons");
 	    for (JsonNode node : personsArray) {
@@ -63,6 +63,36 @@ public class CRUDOnJSONFile {
 					&& person.getZip().equalsIgnoreCase(newPerson.getZip())
 					&& person.getPhone().equalsIgnoreCase(newPerson.getPhone())
 					&& person.getEmail().equalsIgnoreCase(newPerson.getEmail())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	// Search for a JSON node which corresponds to a given person.
+	public JsonNode findFirestationNode(JsonNode rootNode, Firestation firestation) throws IOException {
+	    ObjectMapper objectMapper = new ObjectMapper();
+	    ArrayNode firestationsArray = (ArrayNode) rootNode.get("firestations");
+	    for (JsonNode node : firestationsArray) {
+	        Firestation p = objectMapper.treeToValue(node, Firestation.class);
+	        System.out.println(p);
+	        if (p.getAddress().equals(firestation.getAddress())) { // && p.getStation() == firestation.getStation()) {
+	            System.out.println(node);
+	        	return node;
+	        }
+	    }
+	    return null;
+	}
+	
+	// Verify if a firestation already exists in a JSON file.
+	public boolean isFirestationAlreadyExists(Firestation newFirestation) throws IOException {
+		System.out.println("isFirestationAlreadyExists");
+		ReadJSONFile readJSONFile = new ReadJSONFile();
+		List<Firestation> firestationsList = readJSONFile.getFirestations();
+		System.out.println(firestationsList);
+		for (Firestation firestation : firestationsList) {
+			if (firestation.getAddress().equalsIgnoreCase(newFirestation.getAddress()) 
+					&& firestation.getStation() == newFirestation.getStation()) {
 				return false;
 			}
 		}
