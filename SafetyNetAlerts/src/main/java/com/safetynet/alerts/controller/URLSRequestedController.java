@@ -27,7 +27,8 @@ public class URLSRequestedController {
 	 * We have to provide here: station_number
 	 */
 	@GetMapping("/firestation")
-	public List<URL1ResponseFields> getFirestationPeople(@RequestParam("stationNumber") int stationNumber) throws IOException {
+	public List<URL1ResponseFields> getFirestationPeople(@RequestParam("stationNumber") int stationNumber)
+			throws IOException {
 		List<URL1ResponseFields> resultURL1 = personService.findPeopleAndCountByStationNumber(stationNumber);
 		return resultURL1;
 	}
@@ -55,23 +56,25 @@ public class URLSRequestedController {
 	}
 
 	/**
-	 * URL 4 - http://localhost:8080/fire?address=<address>
-	 * We should get here station Id, Name, Tel, Age and Medical records from specified address.
-	 * We have to provide the address 
+	 * URL 4 - http://localhost:8080/fire?address=<address> We should get here
+	 * station Id, Name, Tel, Age and Medical records from specified address. We
+	 * have to provide the address
 	 */
 	@GetMapping("/fire")
 	public List<URL4ResponseFields> getFireList(@RequestParam("address") String address) throws IOException {
 		List<URL4ResponseFields> resultURL4 = personService.findFireListByAddress(address);
 		return resultURL4;
 	}
-	
+
 	/**
-	 * URL 5 - http://localhost:8080/flood/stations?stations=<a list of station_numbers>
-	 * We should get a list grouped by address and get name, phone, age and Medical records from specified station Id(s).
-	 * We should provide the station Id(s)
+	 * URL 5 - http://localhost:8080/flood/stations?stations=<a list of
+	 * station_numbers> We should get a list grouped by address and get name, phone,
+	 * age and Medical records from specified station Id(s). We should provide the
+	 * station Id(s)
 	 */
 	@GetMapping("/flood/stations")
-	public List<URL5ResponseFields> getFloodStationsList(@RequestParam("stations") List<Integer> firestationList) throws IOException {
+	public List<URL5ResponseFields> getFloodStationsList(@RequestParam("stations") List<Integer> firestationList)
+			throws IOException {
 		List<URL5ResponseFields> resultURL5 = personService.findFloodStationsByFirestation(firestationList);
 		return resultURL5;
 	}
@@ -85,7 +88,6 @@ public class URLSRequestedController {
 	@GetMapping("/personInfo")
 	public List<URL6ResponseFields> getPersonInfo(@RequestParam("firstName") String firstName,
 			@RequestParam("lastName") String lastName) throws IOException {
-
 		List<URL6ResponseFields> resultURL6 = personService.findPersonAndMedicalRecordsByFirstNameAndLastName(firstName,
 				lastName);
 		return resultURL6;
@@ -98,10 +100,7 @@ public class URLSRequestedController {
 	 */
 	@GetMapping("/communityEmail")
 	public List<String> getCommunityEmail(@RequestParam("city") String city) throws IOException {
-
 		List<String> resultURL7 = personService.findEmailByCity(city);
 		return resultURL7;
-
 	}
-
 }

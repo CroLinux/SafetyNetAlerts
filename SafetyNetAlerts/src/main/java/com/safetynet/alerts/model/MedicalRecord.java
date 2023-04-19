@@ -13,6 +13,11 @@ public class MedicalRecord {
 	private String birthdate;
 	private List<String> medications;
 	private List<String> allergies;
+	
+	// Default Constructor
+	public MedicalRecord() {
+		
+	}
 
 	// Generate Constructor
 	public MedicalRecord(String firstName, String lastName, String birthdate, List<String> medications,

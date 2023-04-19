@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.safetynet.alerts.model.Firestation;
+import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
 
 /**
@@ -75,9 +76,7 @@ public class CRUDOnJSONFile {
 	    ArrayNode firestationsArray = (ArrayNode) rootNode.get("firestations");
 	    for (JsonNode node : firestationsArray) {
 	        Firestation p = objectMapper.treeToValue(node, Firestation.class);
-	        System.out.println(p);
-	        if (p.getAddress().equals(firestation.getAddress())) { // && p.getStation() == firestation.getStation()) {
-	            System.out.println(node);
+	        if (p.getAddress().equals(firestation.getAddress())) { 
 	        	return node;
 	        }
 	    }
@@ -86,10 +85,8 @@ public class CRUDOnJSONFile {
 	
 	// Verify if a firestation already exists in a JSON file.
 	public boolean isFirestationAlreadyExists(Firestation newFirestation) throws IOException {
-		System.out.println("isFirestationAlreadyExists");
 		ReadJSONFile readJSONFile = new ReadJSONFile();
 		List<Firestation> firestationsList = readJSONFile.getFirestations();
-		System.out.println(firestationsList);
 		for (Firestation firestation : firestationsList) {
 			if (firestation.getAddress().equalsIgnoreCase(newFirestation.getAddress()) 
 					&& firestation.getStation() == newFirestation.getStation()) {
@@ -97,5 +94,32 @@ public class CRUDOnJSONFile {
 			}
 		}
 		return true;
+	}
+
+	public boolean isMedicalRecordAlreadyExists(MedicalRecord newMedicalRecord) throws IOException {
+		ReadJSONFile readJSONFile = new ReadJSONFile();
+		List<MedicalRecord> medicalRecordsList = readJSONFile.getMedicalRecords();
+		for (MedicalRecord medicalRecord : medicalRecordsList) {
+			if (medicalRecord.getFirstName().equalsIgnoreCase(newMedicalRecord.getFirstName())
+					&& medicalRecord.getLastName().equalsIgnoreCase(newMedicalRecord.getLastName())
+					&& medicalRecord.getBirthdate().equalsIgnoreCase(newMedicalRecord.getBirthdate())
+					&& medicalRecord.getMedications().equals(newMedicalRecord.getMedications())
+					&& medicalRecord.getAllergies().equals(newMedicalRecord.getAllergies())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public JsonNode findMedicalRecordNode(JsonNode rootNode, MedicalRecord medicalRecord) throws IOException {
+	    ObjectMapper objectMapper = new ObjectMapper();
+	    ArrayNode medicalRecordsArray = (ArrayNode) rootNode.get("medicalrecords");
+	    for (JsonNode node : medicalRecordsArray) {
+	        MedicalRecord p = objectMapper.treeToValue(node, MedicalRecord.class);
+	        if (p.getFirstName().equals(medicalRecord.getFirstName()) && p.getLastName().equals(medicalRecord.getLastName())) {
+	            return node;
+	        }
+	    }
+		return null;
 	}
 }

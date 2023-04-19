@@ -34,7 +34,6 @@ public class ReadJSONFile {
 				.address(a.get("address").toString()).city(a.get("city").toString())
 				.lastName(a.get("lastName").toString()).phone(a.get("phone").toString()).zip(a.get("zip").toString())
 				.email(a.get("email").toString()).build()));
-		System.out.println(persons);
 		return persons;
 	}
 
@@ -56,7 +55,6 @@ public class ReadJSONFile {
 		readMedicalRecords.forEach(a -> medicalRecordsList
 				.add(new MedicalRecord(a.get("firstName").toString(), a.get("lastName").toString(),
 						a.get("birthdate").toString(), getList(a.get("medications")), getList(a.get("allergies")))));
-		System.out.println(medicalRecordsList);
 		return medicalRecordsList;
 	}
 	
@@ -66,10 +64,7 @@ public class ReadJSONFile {
 		
 		Any readFirestations = buffer.get("firestations");
 		readFirestations.forEach(a -> firestationsList.add(new Firestation(a.get("address").toString(), a.get("station").toInt())));
-		System.out.println(firestationsList);
 		return firestationsList;		
 	}
-	
-
 
 }

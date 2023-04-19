@@ -32,7 +32,6 @@ public class PersonController {
 	@GetMapping("/personInfoOnly")
 	public List<Person> getPersonInfo(@RequestParam String firstName, @RequestParam String lastName)
 			throws IOException {
-		// List<Person> persons = readJSONFile.getPersons();
 		List<Person> persons = personRepository.getPersons();
 		List<Person> result = new ArrayList<>();
 		for (Person person : persons) {

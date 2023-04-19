@@ -57,7 +57,9 @@ public class PersonRepository {
 	}
 
 	// We return the table with the small person info.
-	public List<Person> getPersons() {
+	public List<Person> getPersons() throws IOException {
+		ReadJSONFile readJSONFile = new ReadJSONFile();
+		personList = readJSONFile.getPersons();
 		return personList;
 	}
 
@@ -84,9 +86,8 @@ public class PersonRepository {
 
 	// We generate a table with all the personal info from the 3 parts of the
 	// provided file.
-	public List<PersonFullData> getPersonsFullData() {
+	public List<PersonFullData> getPersonsFullData() throws IOException {
 		List<PersonFullData> getPersonsListFullData = new ArrayList<>();
-		// Set<PersonFullData> getPersonsListFullData = new HashSet<>();
 
 		medicalRecords = medicalRecordRepository.getMedicalRecords();
 		firestationsList = firestationRepository.getFirestations();
@@ -129,7 +130,7 @@ public class PersonRepository {
 	}
 
 	// From the full file generated, we generate a file with adults only, over 18y.
-	public List<PersonFullData> getFullAdults() {
+	public List<PersonFullData> getFullAdults() throws IOException {
 		List<PersonFullData> getFullAdultsList = new ArrayList<>();
 		List<PersonFullData> personsFullList1 = getPersonsFullData();
 
@@ -151,7 +152,7 @@ public class PersonRepository {
 
 	// From the full file generated, we generate a file with childs only, 18y and
 	// under.
-	public List<PersonFullData> getFullChilds() {
+	public List<PersonFullData> getFullChilds() throws IOException {
 		List<PersonFullData> getFullChildsList = new ArrayList<>();
 		List<PersonFullData> personsFullList2 = getPersonsFullData();
 
@@ -183,7 +184,7 @@ public class PersonRepository {
 		return getPersonsListByAddress;
 	}
 
-	public List<URL1ResponseFields> getPeopleAndCountByStationNumber(int stationNumber) {
+	public List<URL1ResponseFields> getPeopleAndCountByStationNumber(int stationNumber) throws IOException {
 
 		firestationsList = firestationRepository.getFirestationsByID(stationNumber);
 		medicalRecords = medicalRecordRepository.getMedicalRecords();
@@ -222,7 +223,7 @@ public class PersonRepository {
 		return resultPRURL1;
 	}
 
-	public List<URL2ResponseFields> getChildListByAddress(String address) {
+	public List<URL2ResponseFields> getChildListByAddress(String address) throws IOException {
 		// medicalRecords = medicalRecordRepository.getMedicalRecords();
 		List<URL2ResponseFields> resultPRURL2 = new LinkedList<URL2ResponseFields>();
 		List<Person> personListByAddress = getPersonsByAddress(address);
@@ -262,7 +263,7 @@ public class PersonRepository {
 		return resultPRURL3;
 	}
 
-	public List<URL4ResponseFields> getFireListByAddress(String address) {
+	public List<URL4ResponseFields> getFireListByAddress(String address) throws IOException {
 		List<URL4ResponseFields> resultPRURL4 = new LinkedList<URL4ResponseFields>();
 		List<PersonFullData> personFullList = getPersonsFullData();
 
@@ -284,7 +285,7 @@ public class PersonRepository {
 		return resultPRURL4;
 	}
 
-	public List<URL5ResponseFields> getFloodStationsByFirestation(List<Integer> firestationList) {
+	public List<URL5ResponseFields> getFloodStationsByFirestation(List<Integer> firestationList) throws IOException {
 		List<URL5ResponseFields> resultPRURL5 = new LinkedList<URL5ResponseFields>();
 
 		for (Integer i : firestationList) {
@@ -326,7 +327,7 @@ public class PersonRepository {
 	}
 
 	public List<URL6ResponseFields> getPersonAndMedicalRecordsByFirstNameAndLastName(String firstName,
-			String lastName) {
+			String lastName) throws IOException {
 
 		// medicalRecords = medicalRecordRepository.getMedicalRecords();
 		List<URL6ResponseFields> resultPRURL6 = new LinkedList<URL6ResponseFields>();

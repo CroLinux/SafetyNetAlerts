@@ -28,13 +28,13 @@ public class PersonService {
 	@Autowired
 	private WriteJSONOutputFile writeJSONOutputFile;
 
-	public List<URL1ResponseFields> findPeopleAndCountByStationNumber(int stationNumber) {
+	public List<URL1ResponseFields> findPeopleAndCountByStationNumber(int stationNumber) throws IOException {
 		List<URL1ResponseFields> resultPSURL1 = personRepository.getPeopleAndCountByStationNumber(stationNumber);
 		writeJSONOutputFile.writeIntoTheFile(resultPSURL1);
 		return resultPSURL1;
 	}
 
-	public List<URL2ResponseFields> findChildListByAddress(String address) {
+	public List<URL2ResponseFields> findChildListByAddress(String address) throws IOException {
 		List<URL2ResponseFields> resultPSURL2 = personRepository.getChildListByAddress(address);
 		writeJSONOutputFile.writeIntoTheFile(resultPSURL2);
 		return resultPSURL2;
@@ -46,20 +46,20 @@ public class PersonService {
 		return resultPSURL3;
 	}
 
-	public List<URL4ResponseFields> findFireListByAddress(String address) {
+	public List<URL4ResponseFields> findFireListByAddress(String address) throws IOException {
 		List<URL4ResponseFields> resultPSURL4 = personRepository.getFireListByAddress(address);
 		writeJSONOutputFile.writeIntoTheFile(resultPSURL4);
 		return resultPSURL4;
 	}
 
-	public List<URL5ResponseFields> findFloodStationsByFirestation(List<Integer> firestationList) {
+	public List<URL5ResponseFields> findFloodStationsByFirestation(List<Integer> firestationList) throws IOException {
 		List<URL5ResponseFields> resultPSURL5 = personRepository.getFloodStationsByFirestation(firestationList);
 		writeJSONOutputFile.writeIntoTheFile(resultPSURL5);
 		return resultPSURL5;
 	}
 
 	public List<URL6ResponseFields> findPersonAndMedicalRecordsByFirstNameAndLastName(String firstName,
-			String lastName) {
+			String lastName) throws IOException {
 		List<URL6ResponseFields> resultPSURL6 = personRepository
 				.getPersonAndMedicalRecordsByFirstNameAndLastName(firstName, lastName);
 		writeJSONOutputFile.writeIntoTheFile(resultPSURL6);

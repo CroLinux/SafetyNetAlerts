@@ -8,6 +8,7 @@ public class Firestation {
 	String address;
 	int station;
 	
+	// Default Constructor
 	public Firestation() {
 		
 	}
