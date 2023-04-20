@@ -185,7 +185,9 @@ public class PersonRepository {
 	}
 
 	public List<URL1ResponseFields> getPeopleAndCountByStationNumber(int stationNumber) throws IOException {
-
+		ReadJSONFile readJSONFile = new ReadJSONFile();
+		personList = readJSONFile.getPersons();
+		
 		firestationsList = firestationRepository.getFirestationsByID(stationNumber);
 		medicalRecords = medicalRecordRepository.getMedicalRecords();
 		List<URL1ResponseFields> resultPRURL1 = new LinkedList<URL1ResponseFields>();
@@ -249,7 +251,7 @@ public class PersonRepository {
 		return resultPRURL2;
 	}
 
-	public List<String> getPhoneByFirestation(int firestation) {
+	public List<String> getPhoneByFirestation(int firestation) throws IOException {
 		firestationsList = firestationRepository.getFirestationsByID(firestation);
 
 		List<String> resultPRURL3 = new ArrayList<>();

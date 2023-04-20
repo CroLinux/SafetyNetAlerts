@@ -40,7 +40,7 @@ public class PersonService {
 		return resultPSURL2;
 	}
 
-	public List<String> findPhoneByFirestation(int firestation) {
+	public List<String> findPhoneByFirestation(int firestation) throws IOException {
 		List<String> resultPSURL3 = personRepository.getPhoneByFirestation(firestation);
 		writeJSONOutputFile.writeIntoTheFile(resultPSURL3);
 		return resultPSURL3;

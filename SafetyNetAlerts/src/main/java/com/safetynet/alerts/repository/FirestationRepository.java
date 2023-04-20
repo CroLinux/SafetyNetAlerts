@@ -32,7 +32,9 @@ public class FirestationRepository {
 		return firestationList;
 	}
 
-	public List<Firestation> getFirestationsByID(int stationNumber) {
+	public List<Firestation> getFirestationsByID(int stationNumber) throws IOException {
+		ReadJSONFile readJSONFile = new ReadJSONFile();
+		firestationList = readJSONFile.getFirestations();
 		List<Firestation> firestationListByID = new ArrayList<>();
 		for (Firestation firestation : firestationList) {
 			if (firestation.getStation() == stationNumber) {
