@@ -16,4 +16,20 @@ public class URL4ResponseFields {
 	public List<String> medications;
 	public List<String> allergies;
 
+	public URL4ResponseFields() {
+
+	}
+
+	public URL4ResponseFields(int station, String firstName, String lastName, String phone, String age,
+			List<String> medications, List<String> allergies) {
+		super();
+		this.station = station;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.phone = phone;
+		this.age = age;
+		this.medications = medications;
+		this.allergies = allergies;
+	}
+
 }
