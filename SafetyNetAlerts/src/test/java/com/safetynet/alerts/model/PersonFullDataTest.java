@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -17,6 +18,7 @@ public class PersonFullDataTest {
 
 	private PersonFullData person1;
 	private PersonFullData person2;
+	private PersonFullData person3;
 
 	@BeforeEach
 	public void setUp() {
@@ -57,6 +59,20 @@ public class PersonFullDataTest {
 		person2.setMedications(medications2);
 		person2.setAllergies(allergies2);
 		person2.setStation(2);
+		
+		person3 = new PersonFullData();
+		person3.setFirstName("Person");
+		person3.setLastName("Test");
+		person3.setAddress("123 Street");
+		person3.setCity("Paris");
+		person3.setZip("75000");
+		person3.setPhone("123-456-7890");
+		person3.setEmail("persontest@mail.com");
+		person3.setBirthdate("01/01/1980");
+		person3.setAge("43");
+		person3.setMedications(new ArrayList<>(person1.getMedications()));
+		person3.setAllergies(new ArrayList<>(person1.getAllergies()));
+		person3.setStation(1);		
 	}
 
 	@Test
@@ -114,6 +130,8 @@ public class PersonFullDataTest {
 	@Test
 	public void testEquals() {
 		assertFalse(person1.equals(person2));
+		assertTrue(person1.equals(person3));
+		
 	}
 
 }

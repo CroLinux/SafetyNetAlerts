@@ -27,7 +27,7 @@ public class PersonController {
 
 	@Autowired
 	private PersonRepository personRepository;
-
+/**
 	// Get the personal info only
 	@GetMapping("/personInfoOnly")
 	public List<Person> getPersonInfo(@RequestParam String firstName, @RequestParam String lastName)
@@ -48,7 +48,7 @@ public class PersonController {
 		List<Person> personList = readJSONFile.getPersons();
 		return personList;
 	}
-	
+*/	
     @GetMapping("/person")
     public List<Person> getPerson(@RequestParam String firstName, @RequestParam String lastName) throws IOException {
     	List<Person> getPersonResult = PersonService.getPersonInDataSource(firstName, lastName);
@@ -72,10 +72,5 @@ public class PersonController {
     PersonService.deletePersonInDataSource(person);
         return person;
     }
-	// Get all the medical records from all people
-	@GetMapping("/medical")
-	public List<MedicalRecord> medicalList() throws IOException {
-		List<MedicalRecord> medicalList = readJSONFile.getMedicalRecords();
-		return medicalList;
-	}
+
 }

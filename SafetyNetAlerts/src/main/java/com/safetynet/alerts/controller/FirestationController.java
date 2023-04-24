@@ -25,9 +25,7 @@ public class FirestationController {
 
 	@PostMapping("/firestation")
 	public Firestation createFirestation(@RequestBody Firestation firestation) throws IOException {
-		System.out.print("create firestation " + firestation);
 		FirestationService.addFirestationInDataSource(firestation);
-		System.out.print("create firestation2");
 		return firestation;
 	}
 
