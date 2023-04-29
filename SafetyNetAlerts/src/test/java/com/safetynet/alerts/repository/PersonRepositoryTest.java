@@ -266,6 +266,21 @@ public class PersonRepositoryTest {
 		assertNotNull(result);
 		assertTrue(result.contains(personToAdd));
 	}
+	
+	@Test
+	public void testAddPersonInDataSourceAlreadyThere() throws IOException {
+		// Given
+		Person personToAdd = new Person("Eric", "Cadigan", "951 LoneTree Rd", "Culver", "97451", "841-874-7458",
+				"gramps@email.com");
+		PersonRepository personRepository = new PersonRepository();
+		// When
+		// We add the new Person
+		personRepository.addPersonInDataSource(personToAdd);
+		List<Person> result = personRepository.getPersons();
+		// Then
+		assertNotNull(result);
+		assertTrue(result.contains(personToAdd));
+	}
 
 	@Test
 	public void testUpdatePersonInDataSource() throws IOException {
@@ -285,6 +300,23 @@ public class PersonRepositoryTest {
 		assertTrue(result.contains(updatedPerson));
 		assertFalse(result.contains(personToUpdate));
 	}
+	
+	@Test
+	public void testUpdatePersonInDataSourceNotPresent() throws IOException {
+		// Given
+		//Person personToUpdate = new Person("Nobody", "Nobody", "Address", "Town", "Zip", "Phone",
+		//		"email.com");
+		Person updatedPerson = new Person("Nobody", "Nobody", "Address", "Town", "Zip", "Phone",
+				"email.com");
+		PersonRepository personRepository = new PersonRepository();
+		// When
+		// Update the Person
+		personRepository.updatePersonInDataSource(updatedPerson);
+		// Get the new list
+		List<Person> result = personRepository.getPersons();
+		// Then
+		assertNotNull(result);
+	}
 
 	@Test
 	public void testDeletePersonInDataSource() throws IOException {
@@ -298,8 +330,21 @@ public class PersonRepositoryTest {
 		List<Person> result = personRepository.getPersons();
 		// Then
 		assertNotNull(result);
-		System.out.println(result);
 		assertFalse(result.contains(personToDelete));
 	}
 
+	@Test
+	public void testDeletePersonInDataSourceNotPresent() throws IOException {
+		// Given
+		Person personToDelete = new Person("Nobody", "Nobody", "", "", "", "", "");
+		PersonRepository personRepository = new PersonRepository();
+		// When
+		// Delete the Firestation
+		personRepository.deletePersonInDataSource(personToDelete);
+		// Get the new list
+		List<Person> result = personRepository.getPersons();
+		// Then
+		assertNotNull(result);
+		assertFalse(result.contains(personToDelete));
+	}
 }

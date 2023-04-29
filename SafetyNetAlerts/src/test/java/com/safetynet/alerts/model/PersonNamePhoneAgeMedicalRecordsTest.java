@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
@@ -107,6 +108,16 @@ public class PersonNamePhoneAgeMedicalRecordsTest {
 		person2.setPhone("999-999-9999");
 		assertFalse(personTest.equals(person2));
 		// assertFalse(person2.equals(person1));
+	}
+	
+	@Test
+	public void MoreHashCodeTest() {
+
+		PersonNamePhoneAgeMedicalRecords PersonHash = new PersonNamePhoneAgeMedicalRecords();
+		int code = PersonHash.hashCode();
+
+		assertNotEquals(0, code);
+
 	}
 
 }

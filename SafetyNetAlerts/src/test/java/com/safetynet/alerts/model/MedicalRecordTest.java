@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -102,5 +103,15 @@ public class MedicalRecordTest {
 	public void testEquals() {
 		assertTrue(medicalRecord.equals(medicalRecord1));
 	}
+	
+    @Test
+    public void MedicalRecordHashCodeTest() {
+
+        MedicalRecord medicalRecordTest = new MedicalRecord();;
+        int code = medicalRecordTest.hashCode();
+
+        assertNotEquals(0, code);
+
+    }
 
 }

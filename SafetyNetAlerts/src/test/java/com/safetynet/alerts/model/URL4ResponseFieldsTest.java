@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -80,4 +81,13 @@ public class URL4ResponseFieldsTest {
 		assertFalse(url4ResponseFields1.equals(url4ResponseFields3));
 	}
 
+	@Test
+	public void URL4HashCodeTest() {
+
+		URL4ResponseFields URL = new URL4ResponseFields();
+		int code = URL.hashCode();
+
+		assertNotEquals(0, code);
+
+	}
 }

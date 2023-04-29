@@ -20,13 +20,15 @@ public class PersonService {
 
 	@Autowired
 	private static PersonRepository personRepository;
+	
+	@Autowired
+	private WriteJSONOutputFile writeJSONOutputFile;
 
 	public PersonService(PersonRepository personRepository) {
 		PersonService.personRepository = personRepository;
+		this.writeJSONOutputFile = new WriteJSONOutputFile();
 	}
 
-	@Autowired
-	private WriteJSONOutputFile writeJSONOutputFile;
 
 	public List<URL1ResponseFields> findPeopleAndCountByStationNumber(int stationNumber) throws IOException {
 		List<URL1ResponseFields> resultPSURL1 = personRepository.getPeopleAndCountByStationNumber(stationNumber);

@@ -127,5 +127,15 @@ public class PersonTest {
 		assertEquals(hashCode1, hashCode2);
 		assertNotEquals(hashCode1, hashCode3);
 	}
+	
+    @Test
+    public void PersonHashCodeTest() {
+
+        Person personTest = new Person();
+        int code = personTest.hashCode();
+
+        assertNotEquals(0, code);
+
+    }
 
 }

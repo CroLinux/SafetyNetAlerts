@@ -5,6 +5,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Assertions;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
 public class FirestationTest {
@@ -36,6 +41,7 @@ public class FirestationTest {
 		assertEquals(station, firestation.getStation());
 	}
 
+    
 	@Test
 	public void testToString() {
 		String address = "123 Street";
@@ -53,6 +59,15 @@ public class FirestationTest {
 		Firestation firestation2 = new Firestation(address, station);
 		assertEquals(firestation1.hashCode(), firestation2.hashCode());
 	}
+	
+	@Test
+	public void testHashCodeNOK() {
+		String address = "123 Street";
+		int station = 1;
+		Firestation firestation1 = new Firestation(address, station);
+		Firestation firestation3 = new Firestation(address, 2);
+		assertNotEquals(firestation1.hashCode(), firestation3.hashCode());
+	}
 
 	@Test
 	public void testEquals() {
@@ -69,8 +84,40 @@ public class FirestationTest {
 		Firestation firestation3 = new Firestation(address3, station3);
 
 		assertEquals(firestation1, firestation2);
+		assertTrue(firestation1.getAddress().equals(firestation2.getAddress()));
+		assertTrue(firestation1.getStation() == (firestation2.getStation()));
+		assertFalse(firestation1.getAddress().equals(firestation3.getAddress()));
 		assertNotEquals(firestation1, firestation3);
 
 	}
+	
+	@Test
+	public void testEqualsWithNull() {
+	Firestation firestation = new Firestation("123 Street", 1);
+	assertFalse(firestation.equals(null));
+	}
+
+	@Test
+	public void testEqualsWithSameObject() {
+	Firestation firestation = new Firestation("123 Street", 1);
+	assertTrue(firestation.equals(firestation));
+	}
+	
+	@Test
+	public void testEqualsWithDifferentType() {
+	Firestation firestation = new Firestation("123 Street", 1);
+	Object obj = new Object();
+	assertNotEquals(firestation, obj);
+	}
+	
+    @Test
+    public void FirestationHashCodeTest() {
+
+        Firestation firestationTest = new Firestation();
+        int code = firestationTest.hashCode();
+
+        assertNotEquals(0, code);
+
+    }
 
 }

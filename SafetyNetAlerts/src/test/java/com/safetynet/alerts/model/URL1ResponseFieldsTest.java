@@ -3,6 +3,7 @@ package com.safetynet.alerts.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
@@ -67,6 +68,16 @@ class URL1ResponseFieldsTest {
         assertTrue(response1.equals(response2));
         assertFalse(response1.equals(response3));
     }
+    
+	@Test
+	public void URL1HashCodeTest() {
+
+		URL1ResponseFields URL = new URL1ResponseFields();
+		int code = URL.hashCode();
+
+		assertNotEquals(0, code);
+
+	}
 
 }
 

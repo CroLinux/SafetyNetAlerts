@@ -59,7 +59,7 @@ public class PersonFullDataTest {
 		person2.setMedications(medications2);
 		person2.setAllergies(allergies2);
 		person2.setStation(2);
-		
+
 		person3 = new PersonFullData();
 		person3.setFirstName("Person");
 		person3.setLastName("Test");
@@ -72,7 +72,7 @@ public class PersonFullDataTest {
 		person3.setAge("43");
 		person3.setMedications(new ArrayList<>(person1.getMedications()));
 		person3.setAllergies(new ArrayList<>(person1.getAllergies()));
-		person3.setStation(1);		
+		person3.setStation(1);
 	}
 
 	@Test
@@ -132,13 +132,22 @@ public class PersonFullDataTest {
 	public void testEquals() {
 		assertFalse(person1.equals(person2));
 		assertTrue(person1.equals(person3));
-		
+
 		equals(person1.getFirstName().equals(person3.getFirstName()));
 		equals(person1.getLastName().equals(person3.getLastName()));
 		equals(person1.getAddress().equals(person3.getAddress()));
 		equals(person1.getCity().equals(person3.getCity()));
 		
-		
+	}
+
+	@Test
+	public void PersonFullDataHashCodeTest() {
+
+		PersonFullData personTest = new PersonFullData();
+		int code = personTest.hashCode();
+
+		assertNotEquals(0, code);
+
 	}
 
 }
