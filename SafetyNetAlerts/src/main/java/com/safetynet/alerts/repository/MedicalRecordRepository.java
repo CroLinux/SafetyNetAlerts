@@ -22,6 +22,7 @@ public class MedicalRecordRepository {
 	private static List<MedicalRecord> medicalRecordList = new ArrayList<>();
 
 	public MedicalRecordRepository() throws IOException {
+		this.crudOnJSONFile = new CRUDOnJSONFile();
 		ReadJSONFile readJSONFile = new ReadJSONFile();
 		medicalRecordList = readJSONFile.getMedicalRecords();
 	}
@@ -52,6 +53,7 @@ public class MedicalRecordRepository {
 		}
 		// Read the file content into a string
 		JsonNode rootNode = crudOnJSONFile.readJsonFile("src/main/resources/data.json");
+		System.out.println("Premier node" + rootNode);
 		// Add the new medicalRecord into it
 		ObjectMapper objectMapper = new ObjectMapper();
 		ObjectNode medicalRecordNode = objectMapper.convertValue(medicalRecord, ObjectNode.class);
@@ -102,7 +104,8 @@ public class MedicalRecordRepository {
 			for (int i = 0; i < medicalRecordsArray.size(); i++) {
 				JsonNode node = medicalRecordsArray.get(i);
 				MedicalRecord p = objectMapper.treeToValue(node, MedicalRecord.class);
-				if (p.getFirstName().equals(medicalRecord.getFirstName()) && p.getLastName().equals(medicalRecord.getLastName())) {
+				if (p.getFirstName().equals(medicalRecord.getFirstName())
+						&& p.getLastName().equals(medicalRecord.getLastName())) {
 					medicalRecordsArray.remove(i);
 					// Write the string into the file
 					crudOnJSONFile.writeJsonFile("src/main/resources/data.json", rootNode);

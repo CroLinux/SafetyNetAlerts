@@ -127,10 +127,17 @@ public class PersonFullDataTest {
 		assertNotEquals(person1.hashCode(), person2.hashCode());
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	@Test
 	public void testEquals() {
 		assertFalse(person1.equals(person2));
 		assertTrue(person1.equals(person3));
+		
+		equals(person1.getFirstName().equals(person3.getFirstName()));
+		equals(person1.getLastName().equals(person3.getLastName()));
+		equals(person1.getAddress().equals(person3.getAddress()));
+		equals(person1.getCity().equals(person3.getCity()));
+		
 		
 	}
 

@@ -42,7 +42,8 @@ public class MedicalRecordControllerTest {
         objectMapper = new ObjectMapper();
     }
 
-    @Test
+    @SuppressWarnings("static-access") // to remove this warning (when(medicalRecordService.getMedicalRecordInDataSource(firstName, lastName)).thenReturn(medicalRecordList);)
+	@Test
     public void testGetMedicalRecord() throws Exception {
         // Given
         String firstName = "Person";

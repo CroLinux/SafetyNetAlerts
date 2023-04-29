@@ -43,7 +43,8 @@ public class PersonControllerTest {
         objectMapper = new ObjectMapper();
     }
 
-    @Test
+    @SuppressWarnings("static-access")// To remove this warning (when(personService.getPersonInDataSource(firstName, lastName)).thenReturn(personList);)
+	@Test
     public void testGetPerson() throws Exception {
         // Given
         String firstName = "Person";

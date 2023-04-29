@@ -23,12 +23,15 @@ public class FirestationRepository {
 	private static List<Firestation> firestationList = new ArrayList<>();
 
 	public FirestationRepository() throws IOException {
+		this.crudOnJSONFile = new CRUDOnJSONFile();
 		ReadJSONFile readJSONFile = new ReadJSONFile();
 		firestationList = readJSONFile.getFirestations();
 
 	}
 
-	public List<Firestation> getFirestations() {
+	public List<Firestation> getFirestations() throws IOException {
+		ReadJSONFile readJSONFile = new ReadJSONFile();
+		firestationList = readJSONFile.getFirestations();
 		return firestationList;
 	}
 
@@ -88,19 +91,15 @@ public class FirestationRepository {
 	public List<Firestation> updateFirestationInDataSource(Firestation firestation) throws IOException {
 		// Verify if the firestation exist in the file
 		if (crudOnJSONFile.isFirestationAlreadyExists(firestation)) {
-			System.out.println(firestation.getStation());
 			// Read the file content into a string
 			JsonNode rootNode = crudOnJSONFile.readJsonFile("src/main/resources/data.json");
 			// Search for the given firestation
 			JsonNode firestationNode = crudOnJSONFile.findFirestationNode(rootNode, firestation);
-			System.out.println(firestationNode);
 			if (firestationNode != null) {
 				// Update the firestation info
 				((ObjectNode) firestationNode).put("address", firestation.getAddress());
-				System.out.println(firestation.getStation());
 				((ObjectNode) firestationNode).put("station", firestation.getStation());
 				// Write the string into the file
-				System.out.println(firestationNode);
 				crudOnJSONFile.writeJsonFile("src/main/resources/data.json", rootNode);
 				return null;
 			}

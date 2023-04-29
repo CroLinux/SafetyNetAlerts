@@ -52,6 +52,10 @@ public class PersonRepository {
 
 	// We extract the person info from the persons part.
 	public PersonRepository() throws IOException {
+		this.crudOnJSONFile = new CRUDOnJSONFile();
+		this.medicalRecordRepository = new MedicalRecordRepository();
+		this.firestationRepository = new FirestationRepository();
+		
 		ReadJSONFile readJSONFile = new ReadJSONFile();
 		personList = readJSONFile.getPersons();
 	}

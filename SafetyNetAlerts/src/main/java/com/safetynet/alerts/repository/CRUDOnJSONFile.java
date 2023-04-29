@@ -1,6 +1,7 @@
 package com.safetynet.alerts.repository;
 
 import java.io.IOException;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -23,13 +24,22 @@ import com.safetynet.alerts.model.Person;
 
 @Repository
 public class CRUDOnJSONFile {
-	
+	/**
 	// Read and return the contents of a JSON file.
 	public JsonNode readJsonFile(String filePath) throws IOException {
 	    String jsonContent = Files.readString(Paths.get(filePath));
 	    ObjectMapper objectMapper = new ObjectMapper();
 	    return objectMapper.readTree(jsonContent);
 	}
+	*/
+	
+	public JsonNode readJsonFile(String filePath) throws IOException {
+	    File file = new File(filePath);
+	    ObjectMapper objectMapper = new ObjectMapper();
+	    JsonNode rootNode = objectMapper.readTree(file);
+	    return rootNode;
+	}
+
 
 	// Write the given JSON node to a file.
 	public boolean writeJsonFile(String filePath, JsonNode rootNode) throws IOException {
@@ -88,8 +98,8 @@ public class CRUDOnJSONFile {
 		ReadJSONFile readJSONFile = new ReadJSONFile();
 		List<Firestation> firestationsList = readJSONFile.getFirestations();
 		for (Firestation firestation : firestationsList) {
-			if (firestation.getAddress().equalsIgnoreCase(newFirestation.getAddress()) 
-					&& firestation.getStation() == newFirestation.getStation()) {
+			if ((firestation.getAddress().equalsIgnoreCase(newFirestation.getAddress())) 
+					&& (firestation.getStation() == newFirestation.getStation())) {
 				return false;
 			}
 		}

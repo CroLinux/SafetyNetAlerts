@@ -42,7 +42,8 @@ public class FirestationControllerTest {
         objectMapper = new ObjectMapper();
     }
 
-    @Test
+    @SuppressWarnings("static-access") // to remove this warning (The static method getFirestationInDataSource(int) from the type FirestationService should be accessed in a static way)
+	@Test
     public void testGetFirestation() throws Exception {
         // Given
         int stationNumber = 1;

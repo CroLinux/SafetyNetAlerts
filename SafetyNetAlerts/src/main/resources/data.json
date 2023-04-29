@@ -183,14 +183,6 @@
     "zip" : "97451",
     "phone" : "841-874-7458",
     "email" : "gramps@email.com"
-  }, {
-    "firstName" : "Mister",
-    "lastName" : "Test",
-    "address" : "23 OPCR Street",
-    "city" : "Paris",
-    "zip" : "75001 2",
-    "phone" : "098-765-4321",
-    "email" : "mister2@test.com"
   } ],
   "firestations" : [ {
     "address" : "1509 Culver St",
@@ -232,8 +224,8 @@
     "address" : "951 LoneTree Rd",
     "station" : "2"
   }, {
-    "address" : "23 OPCR Street",
-    "station" : 6
+    "address" : "123 Test Street",
+    "station" : 9
   } ],
   "medicalrecords" : [ {
     "firstName" : "John",
@@ -373,11 +365,5 @@
     "birthdate" : "08/06/1945",
     "medications" : [ "tradoxidine:400mg" ],
     "allergies" : [ ]
-  }, {
-    "firstName" : "Mister",
-    "lastName" : "Test",
-    "birthdate" : "01/01/1978",
-    "medications" : [ "aznol:350mg", "hydrapermazol:100mg" ],
-    "allergies" : [ "nillacilan", "pollen2" ]
   } ]
 }
