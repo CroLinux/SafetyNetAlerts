@@ -1,0 +1,9 @@
+2023-05-01T18:51:51.751+02:00  INFO 7354 --- [main] c.s.alerts.SafetyNetAlertsApplication    : Starting SafetyNetAlertsApplication using Java 17.0.5 with PID 7354 (/Users/antedrenski/git/SafetyNetAlerts/SafetyNetAlerts/target/classes started by antedrenski in /Users/antedrenski/git/SafetyNetAlerts/SafetyNetAlerts)
+2023-05-01T18:51:51.753+02:00  INFO 7354 --- [main] c.s.alerts.SafetyNetAlertsApplication    : No active profile set, falling back to 1 default profile: "default"
+2023-05-01T18:51:52.176+02:00  INFO 7354 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-05-01T18:51:52.514+02:00  INFO 7354 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-05-01T18:51:52.518+02:00  INFO 7354 --- [main] c.s.alerts.SafetyNetAlertsApplication    : Started SafetyNetAlertsApplication in 0.916 seconds (process running for 1.234)
+2023-05-01T18:51:59.299+02:00  INFO 7354 --- [http-nio-8080-exec-1] c.s.a.c.URLSRequestedController          : Request GET /personInfo, should return a persons list with their informations depending on their FirstName and LastName: john, Boyd
+2023-05-01T18:51:59.325+02:00  INFO 7354 --- [http-nio-8080-exec-1] c.s.a.c.URLSRequestedController          : Result of the request: [URL6ResponseFields(firstName=John, lastName=Boyd, address=1509 Culver St, age=39, email=jaboyd@email.com, medication=[aznol:350mg, hydrapermazol:100mg], allergies=[nillacilan])]
+2023-05-01T18:52:02.426+02:00  INFO 7354 --- [http-nio-8080-exec-3] c.s.a.controller.FirestationController   : Request GET /firestationOnly, should return firestation information depending on the Station Number: 5
+2023-05-01T18:52:02.427+02:00  INFO 7354 --- [http-nio-8080-exec-3] c.s.a.controller.FirestationController   : Result of the request: []

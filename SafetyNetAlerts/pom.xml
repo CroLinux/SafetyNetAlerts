@@ -21,7 +21,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
+		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
 		<dependency>
     		<groupId>org.junit.jupiter</groupId>
     		<artifactId>junit-jupiter</artifactId>
@@ -70,13 +70,18 @@
 			<groupId>com.github.spotbugs</groupId>
 			<artifactId>spotbugs-maven-plugin</artifactId>
 			<version>4.7.3.0</version>
+			<!-- To avoid the multipple SLF4J warning msg at the boot -->
+			<exclusions>
+        		<exclusion>
+            		<groupId>org.slf4j</groupId>
+            		<artifactId>slf4j-simple</artifactId>
+        		</exclusion>
+    		</exclusions>
 		</dependency>
-
 	</dependencies>
-
 	<build>
 		<plugins>
-						<plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
 				<version>3.4.2</version>

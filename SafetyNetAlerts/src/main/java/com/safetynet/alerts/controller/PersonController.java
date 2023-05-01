@@ -1,10 +1,10 @@
 package com.safetynet.alerts.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,64 +13,75 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
-import com.safetynet.alerts.repository.ReadJSONFile;
 import com.safetynet.alerts.service.PersonService;
-import com.safetynet.alerts.repository.PersonRepository;
 
 @RestController
 public class PersonController {
 
-	@Autowired
-	private ReadJSONFile readJSONFile;
+	private Logger logger = LogManager.getLogger(PersonController.class);
 
-	@Autowired
-	private PersonRepository personRepository;
-/**
-	// Get the personal info only
-	@GetMapping("/personInfoOnly")
-	public List<Person> getPersonInfo(@RequestParam String firstName, @RequestParam String lastName)
-			throws IOException {
-		List<Person> persons = personRepository.getPersons();
-		List<Person> result = new ArrayList<>();
-		for (Person person : persons) {
-			if (person.getFirstName().equalsIgnoreCase(firstName) && person.getLastName().equalsIgnoreCase(lastName)) {
-				result.add(person);
-			}
-		}
-		return result;
+	/**
+	 * URL/Endpoint to get information about a person
+	 * 
+	 * @param firstName
+	 * @param lastName
+	 * @return
+	 * @throws IOException
+	 */
+	@GetMapping("/person")
+	public List<Person> getPerson(@RequestParam String firstName, @RequestParam String lastName) throws IOException {
+		logger.info(
+				"Request GET /person, should return person information depending on their FirstName and LastName: {}, {}",
+				firstName, lastName);
+		List<Person> getPersonResult = PersonService.getPersonInDataSource(firstName, lastName);
+		logger.info("Result of the request: {}", getPersonResult);
+		return getPersonResult;
 	}
 
-	// Get all the personal info from all people
-	@GetMapping("/persons")
-	public List<Person> personsList() throws IOException {
-		List<Person> personList = readJSONFile.getPersons();
-		return personList;
+	/**
+	 * Endpoint to POST(add) a new person
+	 * 
+	 * @param person
+	 * @return
+	 * @throws IOException
+	 */
+	@PostMapping("/person")
+	public Person createPerson(@RequestBody Person person) throws IOException {
+		logger.info("Command POST /person, add new Person with information: {}", person);
+		PersonService.addPersonInDataSource(person);
+		logger.info("Person Added: {}, {}", person.getFirstName(), person.getLastName());
+		return person;
 	}
-*/	
-    @GetMapping("/person")
-    public List<Person> getPerson(@RequestParam String firstName, @RequestParam String lastName) throws IOException {
-    	List<Person> getPersonResult = PersonService.getPersonInDataSource(firstName, lastName);
-        return getPersonResult;
-    }
-    
-    @PostMapping("/person")
-    public Person createPerson(@RequestBody Person person) throws IOException {
-        PersonService.addPersonInDataSource(person);
-        return person;
-    }
 
-    @PutMapping("/person")
-    public Person updatePerson(@RequestBody Person person) throws IOException {
-        PersonService.updatePersonInDataSource(person);
-        return person;
-    }
-    
-    @DeleteMapping("/person")
-    public Person deletePerson(@RequestBody Person person) throws IOException {
-    PersonService.deletePersonInDataSource(person);
-        return person;
-    }
+	/**
+	 * Endpoint to PUT(update) a person
+	 * 
+	 * @param person
+	 * @return
+	 * @throws IOException
+	 */
+	@PutMapping("/person")
+	public Person updatePerson(@RequestBody Person person) throws IOException {
+		logger.info("Command PUT /person, update a Person with information: {}", person);
+		PersonService.updatePersonInDataSource(person);
+		logger.info("Person Updated: {}, {}", person.getFirstName(), person.getLastName());
+		return person;
+	}
+
+	/**
+	 * Endpoint to DELETE a person
+	 * 
+	 * @param person
+	 * @return
+	 * @throws IOException
+	 */
+	@DeleteMapping("/person")
+	public Person deletePerson(@RequestBody Person person) throws IOException {
+		logger.info("Command DELETE /person, delete a Person with information: {}", person);
+		PersonService.deletePersonInDataSource(person);
+		logger.info("Person Deleted: {}, {}", person.getFirstName(), person.getLastName());
+		return person;
+	}
 
 }

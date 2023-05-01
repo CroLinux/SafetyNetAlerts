@@ -14,6 +14,12 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.safetynet.alerts.model.Firestation;
 
+/**
+ * Class used for the Firestation data manipulation
+ * 
+ * @author antedrenski
+ *
+ */
 @Repository
 public class FirestationRepository {
 
@@ -72,6 +78,7 @@ public class FirestationRepository {
 		return result;
 	}
 
+	// To add a new Firestation
 	public List<Firestation> addFirestationInDataSource(Firestation firestation) throws IOException {
 		// Verify if the same firestation mapping is not into the file
 		if (!crudOnJSONFile.isFirestationAlreadyExists(firestation)) {
@@ -88,6 +95,7 @@ public class FirestationRepository {
 		return null;
 	}
 
+	// To update a Firestation
 	public List<Firestation> updateFirestationInDataSource(Firestation firestation) throws IOException {
 		// Verify if the firestation exist in the file
 		if (crudOnJSONFile.isFirestationAlreadyExists(firestation)) {
@@ -107,6 +115,7 @@ public class FirestationRepository {
 		return null;
 	}
 
+	// To delete a Firestation
 	public List<Firestation> deleteFirestationInDataSource(Firestation firestation) throws IOException {
 		// Verify if the firestation exist in the file
 		if (crudOnJSONFile.isFirestationAlreadyExists(firestation)) {

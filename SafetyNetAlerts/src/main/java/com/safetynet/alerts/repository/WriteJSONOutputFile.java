@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,6 +20,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Repository
 public class WriteJSONOutputFile {
+	
+	private Logger logger = LogManager.getLogger(WriteJSONOutputFile.class);
 
 	public void writeIntoTheFile(List<?> dataToWriteIntoTheFile) {
 
@@ -28,7 +32,7 @@ public class WriteJSONOutputFile {
 		try {
 			mapper.writeValue(new File(outputFilePath), dataToWriteIntoTheFile);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("Error with the Output JSON File.", e);
 		}
 
 	}

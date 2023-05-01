@@ -13,6 +13,12 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.safetynet.alerts.model.MedicalRecord;
 
+/**
+ * Class used for the Medical Record data manipulation
+ * 
+ * @author CroLinux
+ *
+ */
 @Repository
 public class MedicalRecordRepository {
 
@@ -46,6 +52,7 @@ public class MedicalRecordRepository {
 		return result;
 	}
 
+	// To add a Medical Record
 	public List<MedicalRecord> addMedicalRecordInDataSource(MedicalRecord medicalRecord) throws IOException {
 		// Verify if the same medicalRecord is not into the file
 		if (!crudOnJSONFile.isMedicalRecordAlreadyExists(medicalRecord)) {
@@ -53,7 +60,6 @@ public class MedicalRecordRepository {
 		}
 		// Read the file content into a string
 		JsonNode rootNode = crudOnJSONFile.readJsonFile("src/main/resources/data.json");
-		System.out.println("Premier node" + rootNode);
 		// Add the new medicalRecord into it
 		ObjectMapper objectMapper = new ObjectMapper();
 		ObjectNode medicalRecordNode = objectMapper.convertValue(medicalRecord, ObjectNode.class);
@@ -63,6 +69,7 @@ public class MedicalRecordRepository {
 		return null;
 	}
 
+	// To update a Medical Record
 	public List<MedicalRecord> updateMedicalRecordInDataSource(MedicalRecord medicalRecord) throws IOException {
 		// Verify if the medicalRecord exist in the file
 		if (crudOnJSONFile.isMedicalRecordAlreadyExists(medicalRecord)) {
@@ -93,6 +100,7 @@ public class MedicalRecordRepository {
 		return null;
 	}
 
+	// To delete a Medical Record
 	public List<MedicalRecord> deleteMedicalRecordInDataSource(MedicalRecord medicalRecord) throws IOException {
 		// Verify if the medicalRecord exist in the file
 		if (crudOnJSONFile.isMedicalRecordAlreadyExists(medicalRecord)) {

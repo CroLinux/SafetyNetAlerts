@@ -1,10 +1,14 @@
 package com.safetynet.alerts.repository;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -15,16 +19,33 @@ import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
 
+/**
+ * This class is used to read the provided file and return some standard value(s)
+ * 
+ * @author CroLinux
+ *
+ */
+
 @Repository
 public class ReadJSONFile {
+	
+	private Logger logger = LogManager.getLogger(WriteJSONOutputFile.class);
 	
 		private static Any buffer;
 
 	public ReadJSONFile() throws IOException {
 		String filePath = "src/main/resources/data.json";
-		byte[] bytesFile = Files.readAllBytes(new File(filePath).toPath());
-		JsonIterator jsonIterator = JsonIterator.parse(bytesFile);
-		buffer = jsonIterator.readAny();
+		//byte[] bytesFile = Files.readAllBytes(new File(filePath).toPath());
+		//JsonIterator jsonIterator = JsonIterator.parse(bytesFile);
+		//buffer = jsonIterator.readAny();
+	    try {
+	        byte[] bytesFile = Files.readAllBytes(new File(filePath).toPath());
+	        JsonIterator jsonIterator = JsonIterator.parse(bytesFile);
+	        buffer = jsonIterator.readAny();
+	    } catch (NoSuchFileException e) {
+	    	logger.error("Error with the JSON File: " + filePath, e);
+	        //throw new IOException("Le fichier spécifié n'a pas été trouvé : " + filePath);
+	    }
 	}
 
 	public List<Person> getPersons() {

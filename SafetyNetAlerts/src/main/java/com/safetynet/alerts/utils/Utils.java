@@ -4,6 +4,12 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * This class is used to calculate the Age from a birthdate.
+ * 
+ * @author antedrenski
+ *
+ */
 public class Utils {
 
 	public static String calculateAge(String dateStringProvided) {

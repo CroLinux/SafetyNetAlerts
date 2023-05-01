@@ -24,14 +24,6 @@ import com.safetynet.alerts.model.Person;
 
 @Repository
 public class CRUDOnJSONFile {
-	/**
-	// Read and return the contents of a JSON file.
-	public JsonNode readJsonFile(String filePath) throws IOException {
-	    String jsonContent = Files.readString(Paths.get(filePath));
-	    ObjectMapper objectMapper = new ObjectMapper();
-	    return objectMapper.readTree(jsonContent);
-	}
-	*/
 	
 	public JsonNode readJsonFile(String filePath) throws IOException {
 	    File file = new File(filePath);
@@ -80,7 +72,7 @@ public class CRUDOnJSONFile {
 		return true;
 	}
 
-	// Search for a JSON node which corresponds to a given person.
+	// Search for a JSON node which corresponds to a given firestation.
 	public JsonNode findFirestationNode(JsonNode rootNode, Firestation firestation) throws IOException {
 	    ObjectMapper objectMapper = new ObjectMapper();
 	    ArrayNode firestationsArray = (ArrayNode) rootNode.get("firestations");
@@ -93,7 +85,7 @@ public class CRUDOnJSONFile {
 	    return null;
 	}
 	
-	// Verify if a firestation already exists in a JSON file.
+	// Verify if a firestation already exists .
 	public boolean isFirestationAlreadyExists(Firestation newFirestation) throws IOException {
 		ReadJSONFile readJSONFile = new ReadJSONFile();
 		List<Firestation> firestationsList = readJSONFile.getFirestations();
@@ -106,6 +98,7 @@ public class CRUDOnJSONFile {
 		return true;
 	}
 
+	// Verify if a Medical Record already exists.
 	public boolean isMedicalRecordAlreadyExists(MedicalRecord newMedicalRecord) throws IOException {
 		ReadJSONFile readJSONFile = new ReadJSONFile();
 		List<MedicalRecord> medicalRecordsList = readJSONFile.getMedicalRecords();
@@ -121,6 +114,7 @@ public class CRUDOnJSONFile {
 		return true;
 	}
 
+	// Verify if a Medical Record already exists in a JSON file.
 	public JsonNode findMedicalRecordNode(JsonNode rootNode, MedicalRecord medicalRecord) throws IOException {
 	    ObjectMapper objectMapper = new ObjectMapper();
 	    ArrayNode medicalRecordsArray = (ArrayNode) rootNode.get("medicalrecords");

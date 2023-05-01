@@ -19,6 +19,15 @@ public class MedicalRecordService {
 		MedicalRecordService.medicalRecordRepository = medicalRecordRepository;
 	}
 
+	/**
+	 * 
+	 * --- ENDPOINTS FOR MedicalRecord ---
+	 * 
+	 * @return
+	 * @throws IOException
+	 * 
+	 */
+	
 	public static List<MedicalRecord> getMedicalRecordInDataSource(String firstName, String lastName)
 			throws IOException {
 		List<MedicalRecord> getMedicalRecordList = medicalRecordRepository.getMedicalRecordInDataSource(firstName,

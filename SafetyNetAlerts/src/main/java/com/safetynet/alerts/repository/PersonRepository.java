@@ -1,6 +1,7 @@
 package com.safetynet.alerts.repository;
 
 import java.io.IOException;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -27,6 +28,13 @@ import com.safetynet.alerts.model.URL5ResponseFields;
 import com.safetynet.alerts.model.URL6ResponseFields;
 import com.safetynet.alerts.utils.Utils;
 
+/**
+ * Class used for the Person data manipulation
+ * 
+ * @author CroLinux
+ *
+ */
+
 @Repository
 public class PersonRepository {
 
@@ -39,23 +47,18 @@ public class PersonRepository {
 	@Autowired
 	private CRUDOnJSONFile crudOnJSONFile;
 
-	// @Autowired
-	// private PersonRepository personRepository;
-
 	private static List<Person> personList = new ArrayList<>();
 
 	private static List<Firestation> firestationsList = new ArrayList<>();
 
 	private static List<MedicalRecord> medicalRecords = new ArrayList<>();
 
-	// private static List<Firestation> firestationsList = new ArrayList<>();
-
 	// We extract the person info from the persons part.
 	public PersonRepository() throws IOException {
 		this.crudOnJSONFile = new CRUDOnJSONFile();
 		this.medicalRecordRepository = new MedicalRecordRepository();
 		this.firestationRepository = new FirestationRepository();
-		
+
 		ReadJSONFile readJSONFile = new ReadJSONFile();
 		personList = readJSONFile.getPersons();
 	}
@@ -67,14 +70,7 @@ public class PersonRepository {
 		return personList;
 	}
 
-	/**
-	 * GET http://localhost:8080/person (this one is not requested)
-	 * 
-	 * @param firstName
-	 * @param lastName
-	 * @return information for a specific person requested
-	 * @throws IOException
-	 */
+	// We get the actual information for a specific person
 	public List<Person> getPersonInDataSource(String firstName, String lastName) throws IOException {
 		ReadJSONFile readJSONFile = new ReadJSONFile();
 		List<Person> persons = readJSONFile.getPersons();
@@ -141,13 +137,10 @@ public class PersonRepository {
 		for (PersonFullData person : personsFullList1) {
 			int readAgeFullData = Integer.parseInt(person.getAge());
 			if (readAgeFullData > 18) {
-				// System.out.println("Adults " + readAgeFullData + person.getFirstName() +
-				// person.getLastName());
 				getFullAdultsList.add(person);
-				// System.out.println(getFullAdultsList);
+
 			} else {
-				// System.out.println("Kids " + readAgeFullData + person.getFirstName() +
-				// person.getLastName());
+
 			}
 
 		}
@@ -163,13 +156,10 @@ public class PersonRepository {
 		for (PersonFullData person : personsFullList2) {
 			int readAgeFullData = Integer.parseInt(person.getAge());
 			if (readAgeFullData <= 18) {
-				// System.out.println("Kids " + readAgeFullData + person.getFirstName() +
-				// person.getLastName());
 				getFullChildsList.add(person);
-				// System.out.println(getFullChildsList);
+
 			} else {
-				// System.out.println("Adults " + readAgeFullData + person.getFirstName() +
-				// person.getLastName());
+
 			}
 
 		}
@@ -188,10 +178,17 @@ public class PersonRepository {
 		return getPersonsListByAddress;
 	}
 
+	/**
+	 * To get the result for the URL 1
+	 * 
+	 * @param stationNumber
+	 * @return
+	 * @throws IOException
+	 */
 	public List<URL1ResponseFields> getPeopleAndCountByStationNumber(int stationNumber) throws IOException {
 		ReadJSONFile readJSONFile = new ReadJSONFile();
 		personList = readJSONFile.getPersons();
-		
+
 		firestationsList = firestationRepository.getFirestationsByID(stationNumber);
 		medicalRecords = medicalRecordRepository.getMedicalRecords();
 		List<URL1ResponseFields> resultPRURL1 = new LinkedList<URL1ResponseFields>();
@@ -229,6 +226,13 @@ public class PersonRepository {
 		return resultPRURL1;
 	}
 
+	/**
+	 * To get the result for the URL 2
+	 * 
+	 * @param address
+	 * @return
+	 * @throws IOException
+	 */
 	public List<URL2ResponseFields> getChildListByAddress(String address) throws IOException {
 		// medicalRecords = medicalRecordRepository.getMedicalRecords();
 		List<URL2ResponseFields> resultPRURL2 = new LinkedList<URL2ResponseFields>();
@@ -255,6 +259,13 @@ public class PersonRepository {
 		return resultPRURL2;
 	}
 
+	/**
+	 * To get the result for the URL 3
+	 * 
+	 * @param firestation
+	 * @return
+	 * @throws IOException
+	 */
 	public List<String> getPhoneByFirestation(int firestation) throws IOException {
 		firestationsList = firestationRepository.getFirestationsByID(firestation);
 
@@ -269,6 +280,13 @@ public class PersonRepository {
 		return resultPRURL3;
 	}
 
+	/**
+	 * To get the result for the URL 4
+	 * 
+	 * @param address
+	 * @return
+	 * @throws IOException
+	 */
 	public List<URL4ResponseFields> getFireListByAddress(String address) throws IOException {
 		List<URL4ResponseFields> resultPRURL4 = new LinkedList<URL4ResponseFields>();
 		List<PersonFullData> personFullList = getPersonsFullData();
@@ -291,6 +309,13 @@ public class PersonRepository {
 		return resultPRURL4;
 	}
 
+	/**
+	 * To get the result for the URL 5
+	 * 
+	 * @param firestationList
+	 * @return
+	 * @throws IOException
+	 */
 	public List<URL5ResponseFields> getFloodStationsByFirestation(List<Integer> firestationList) throws IOException {
 		List<URL5ResponseFields> resultPRURL5 = new LinkedList<URL5ResponseFields>();
 
@@ -332,8 +357,16 @@ public class PersonRepository {
 		return resultPRURL5;
 	}
 
-	public List<URL6ResponseFields> getPersonAndMedicalRecordsByFirstNameAndLastName(String firstName,
-			String lastName) throws IOException {
+	/**
+	 * To get the result for the URL 6
+	 * 
+	 * @param firstName
+	 * @param lastName
+	 * @return
+	 * @throws IOException
+	 */
+	public List<URL6ResponseFields> getPersonAndMedicalRecordsByFirstNameAndLastName(String firstName, String lastName)
+			throws IOException {
 
 		// medicalRecords = medicalRecordRepository.getMedicalRecords();
 		List<URL6ResponseFields> resultPRURL6 = new LinkedList<URL6ResponseFields>();
@@ -363,6 +396,12 @@ public class PersonRepository {
 		return distinctresultPRURL6;
 	}
 
+	/**
+	 * To get the result for the URL 7
+	 * 
+	 * @param city
+	 * @return
+	 */
 	public List<String> getEmailByCity(String city) {
 		List<String> resultPRURL7 = new ArrayList<>();
 		for (Person person : personList) {
@@ -379,6 +418,7 @@ public class PersonRepository {
 	 * 
 	 */
 
+	// To add a Person
 	public List<Person> addPersonInDataSource(Person person) throws IOException {
 		// Verify if the same person is not into the file
 		if (!crudOnJSONFile.isPersonAlreadyExists(person)) {
@@ -395,6 +435,7 @@ public class PersonRepository {
 		return null;
 	}
 
+	// To update a Person
 	public List<Person> updatePersonInDataSource(Person person) throws IOException {
 		// Verify if the person exist in the file
 		if (crudOnJSONFile.isPersonAlreadyExists(person)) {
@@ -419,6 +460,7 @@ public class PersonRepository {
 		return null;
 	}
 
+	// To delete a Person
 	public List<Person> deletePersonInDataSource(Person person) throws IOException {
 		// Verify if the person exist in the file
 		if (crudOnJSONFile.isPersonAlreadyExists(person)) {
